@@ -16,21 +16,19 @@ const Login = () => {
     if (email && password) {
       try {
         const response = await fetch('http://localhost:6900/api/auth/login', { 
-          credentials: 'include', // Include credentials for cookie handling
+          credentials: 'include',
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
         });
 
         const data = await response.json();
 
         if (response.ok) {
-          // Save token in localStorage or handle it as needed
-          localStorage.setItem('token', data.token); // Store token in localStorage
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify({ username: data.username, email: data.email })); // Store user details
           setMessage('Login successful!');
-          setTimeout(() => navigate('/'), 1000); // Redirect to Home
+          setTimeout(() => navigate('/'), 1000);
         } else {
           setMessage(data.msg || 'Login failed.');
         }
@@ -62,6 +60,7 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-indigo-300"
                 placeholder="johndoe@email.com"
+                required
               />
             </div>
             
@@ -77,6 +76,7 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-indigo-300"
                   placeholder="••••••••••••••"
+                  required
                 />
                 <button 
                   type="button"
@@ -100,15 +100,14 @@ const Login = () => {
 
           <div className="mt-8 text-center">
             <p className="text-gray-600">
-              Don't have an account? <Link to="/signup" className="text-indigo-600 ">Create an Account?</Link>
+              Don't have an account? <Link to="/signup" className="text-indigo-600">Create an Account?</Link>
             </p>
           </div>
         </div>
       </div>
 
-      {/* This is where you'll add your image */}
       <div className="hidden md:flex md:w-1/2 md:h-2/3 bg-gray-200 items-center justify-center mt-15">
-        <img src={image} alt="" />
+        <img src={image} alt="Login Illustration" />
       </div>
     </div>
   );
