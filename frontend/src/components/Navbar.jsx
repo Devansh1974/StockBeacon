@@ -1,70 +1,120 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa"; // Import user icon
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Check for user authentication on component mount
+    const token = localStorage.getItem("token");
+    const userDetails = localStorage.getItem("user");
+
+    if (token && userDetails) {
+      try {
+        const parsedUser = JSON.parse(userDetails);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Error parsing user details:", error);
+        // Clear invalid token and user details
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    // Clear user authentication
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null); // Update state to trigger re-render
+
+    // Wait a bit before navigating to ensure state updates first
+    setTimeout(() => {
+      navigate("/login");
+    }, 200); // Delay of 200ms
+  };
 
   return (
-    <nav className="bg-white p-4 flex justify-between items-center shadow-sm">
+    <nav className="flex justify-between items-center p-4 bg-white shadow-md">
       {/* Logo */}
-      <div className="flex items-center space-x-1">
-        <span className="text-xl font-bold text-blue-600">Stock</span>
-        <span className="text-xl font-bold text-gray-800">Beacon</span>
+      <div className="text-2xl font-bold text-indigo-600">Stock Beacon</div>
+
+      {/* Navigation Links */}
+      <div className="flex space-x-6">
+        <Link
+          to="/"
+          className={`${
+            currentPath === "/" ? "text-indigo-600 font-semibold" : "text-gray-700"
+          } hover:text-indigo-600`}
+        >
+          Home
+        </Link>
+        <Link
+          to="/portfolio"
+          className={`${
+            currentPath === "/portfolio" ? "text-indigo-600 font-semibold" : "text-gray-700"
+          } hover:text-indigo-600`}
+        >
+          Your Portfolio
+        </Link>
+        <Link
+          to="/alerts"
+          className={`${
+            currentPath === "/alerts" ? "text-indigo-600 font-semibold" : "text-gray-700"
+          } hover:text-indigo-600`}
+        >
+          Keep Alert
+        </Link>
+        <Link
+          to="/trivia"
+          className={`${
+            currentPath === "/trivia" ? "text-indigo-600 font-semibold" : "text-gray-700"
+          } hover:text-indigo-600`}
+        >
+          Trivia
+        </Link>
+        <Link
+          to="/news"
+          className={`${
+            currentPath === "/news" ? "text-indigo-600 font-semibold" : "text-gray-700"
+          } hover:text-indigo-600`}
+        >
+          News
+        </Link>
       </div>
 
-      {/* Navigation Links, Search, and Sign In */}
-      <div className="flex items-center space-x-6">
-        {/* Navigation Links */}
-        <ul className="flex space-x-6 text-gray-500">
-          <li className="relative">
-            <Link to="/" className={`hover:text-gray-800 transition-colors duration-200 ${currentPath === '/' ? 'text-gray-800' : ''}`}>
-              Home
-              {currentPath === '/' && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"></span>}
-            </Link>
-          </li>
-          <li className="relative">
-            <Link to="/portfolio" className={`hover:text-gray-800 transition-colors duration-200 ${currentPath === '/portfolio' ? 'text-gray-800' : ''}`}>
-              Your Portfolio
-              {currentPath === '/portfolio' && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"></span>}
-            </Link>
-          </li>
-          <li className="relative">
-            <Link to="/alerts" className={`hover:text-gray-800 transition-colors duration-200 ${currentPath === '/alerts' ? 'text-gray-800' : ''}`}>
-              Keep Alert
-              {currentPath === '/alerts' && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"></span>}
-            </Link>
-          </li>
-          <li className="relative">
-            <Link to="/trivia" className={`hover:text-gray-800 transition-colors duration-200 ${currentPath === '/trivia' ? 'text-gray-800' : ''}`}>
-              Trivia
-              {currentPath === '/trivia' && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"></span>}
-            </Link>
-          </li>
-          <li className="relative">
-            <Link to="/news" className={`hover:text-gray-800 transition-colors duration-200 ${currentPath === '/news' ? 'text-gray-800' : ''}`}>
-              News
-              {currentPath === '/news' && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"></span>}
-            </Link>
-          </li>
-        </ul>
+      {/* Search and User Section */}
+      <div className="flex items-center space-x-4">
+        {/* Search Icon */}
+        <span className="text-xl cursor-pointer">🔍</span>
 
-        {/* Search Bar */}
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search stocks..."
-            className="bg-gray-100 text-gray-800 text-sm p-2 pl-4 pr-8 rounded-xl focus:outline-none focus:ring-1 focus:ring-gray-300"
-          />
-          <span className="absolute right-3 top-2 text-gray-500">🔍</span>
-        </div>
-
-        {/* Sign In Button */}
-        <Link to="/login">
-          <button className="bg-gray-800 text-white text-sm font-medium py-2 px-4 rounded-full hover:bg-gray-700 transition-colors duration-200">
+        {/* User Authentication */}
+        {user ? (
+          <div className="flex flex-col items-center relative">
+            {/* User Icon */}
+            <FaUserCircle className="text-3xl text-indigo-600 cursor-pointer" title={user.email} />
+            {/* User Email Below the Icon */}
+            <span className="text-gray-700 text-sm mt-1">{user.email}</span>
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              className="text-sm text-red-500 hover:text-red-700 mt-1"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"
+          >
             Login
           </button>
-        </Link>
+        )}
       </div>
     </nav>
   );
