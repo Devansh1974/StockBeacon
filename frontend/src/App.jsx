@@ -2,6 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Home from './components/Home';
+import Portfolio from './components/Portfolio';
+import KeepAlert from './components/KeepAlert';
+import News from './components/News';
+import Trivia from './components/Trivia';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 const App = () => {
   return (
@@ -10,11 +17,13 @@ const App = () => {
         <Navbar />
         <div className="container mx-auto mt-6 p-4 flex-grow">
           <Routes>
-            <Route path="/" element={<h2 className="text-2xl font-semibold text-gray-800">Home</h2>} />
-            <Route path="/portfolio" element={<h2 className="text-2xl font-semibold text-gray-800">Your Portfolio</h2>} />
-            <Route path="/alerts" element={<h2 className="text-2xl font-semibold text-gray-800">Keep Alert</h2>} />
-            <Route path="/news" element={<h2 className="text-2xl font-semibold text-gray-800">News</h2>} />
-            <Route path="/login" element={<h2 className="text-2xl font-semibold text-gray-800">Login</h2>} />
+            <Route path="/" element={<Home />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/alerts" element={<KeepAlert />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/trivia" element={<Trivia />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </div>
         <Footer />
