@@ -15,8 +15,7 @@ const News = () => {
   ];
 
   // Alpha Vantage API configuration 
-  // NOTE: Replace with your actual Alpha Vantage API key
-  const API_KEY = 'W16GENZTVGIYF0CY';
+  const API_KEY = 'BAOT023L0UKYRFLD';
 
   // Fetch news from Alpha Vantage API
   const fetchNews = async () => {
