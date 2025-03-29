@@ -178,7 +178,7 @@ const Home = () => {
           </button>
           <h3 className="text-lg font-semibold text-gray-800 mb-4">AI Assistant</h3>
           <div className="space-y-4">
-            <p className="text-gray-600">Hello! How can I assist you with StockBeacon?</p>
+            <p className="text-gray-600">Hello! How can I assist you with StockBeacon I?</p>
             <p className="text-gray-600">Ask me about stock trends, portfolio tips, or anything!</p>
             <input
               type="text"
