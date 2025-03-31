@@ -152,7 +152,7 @@ const ManageStockAlerts = () => {
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Condition</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Triggered</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Statusz</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
               </tr>
             </thead>
             <tbody>
