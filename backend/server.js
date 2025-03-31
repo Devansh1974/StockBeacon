@@ -14,7 +14,7 @@ app.use(express.json());
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
+  .then(() => console.log('MongoDB connecteds'))
   .catch(err => console.log(err));
 
 app.get('/api/test', (req, res) => res.send('Backend is running!'));
