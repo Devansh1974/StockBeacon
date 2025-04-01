@@ -2,6 +2,12 @@
 
 ## Project Idea
 StockBeacon is a MERN-stack-based stock market platform built as a Capstone project to demonstrate full-stack development skills. It provides real-time stock data, a dummy portfolio tracker, customizable price alerts, stock-specific news, a market mood indicator, and a trivia quiz section. The core feature is an alert system that notifies users of significant price movements, inspired by my personal struggle with missing stock investment opportunities due to poor timing. This project aims to empower users with timely insights and is scoped for a 35-day development cycle (March 03, 2025 - April 10, 2025), targeting 8-10 Capstone points.
+---
+
+## Deployed Link of Frontend --
+
+[Frontend](https://stockbeacon.netlify.app/)
+
 
 ## Day-by-Day Plan
 - **Day 1-3 (Mar 03-05)**: Set up GitHub repo, initialize MERN structure, create low-fidelity designs in Figma.
