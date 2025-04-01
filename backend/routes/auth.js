@@ -54,11 +54,34 @@ router.get('/users', authMiddleware, async (req, res) => {
   }
 });
 
-// logout route
+// Update user details (Protected Route)
+router.put('/users/:id', authMiddleware, async (req, res) => {
+  const { username, email } = req.body;
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+
+    // Ensure the logged-in user is updating their own profile
+    if (user._id.toString() !== req.user.id) {
+      return res.status(403).json({ msg: "Unauthorized to update this user's details" });
+    }
+
+    // Update username and email (if provided)
+    user.username = username || user.username;
+    user.email = email || user.email;
+
+    await user.save();
+    res.json({ message: 'User details updated successfully', user });
+  } catch (err) {
+    console.error("Update user error:", err);
+    res.status(500).json({ error: "Failed to update user. See server logs." });
+  }
+});
+
+// Logout route
 router.post('/logout', (req, res) => {
   res.clearCookie('token');
   res.json({ message: 'Logged out successfully' });
 });
-
 
 module.exports = router;
