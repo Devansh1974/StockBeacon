@@ -24,7 +24,7 @@ const ManageStockAlerts = () => {
       id: 3,
       ticker: 'BHARTIARTL',
       name: 'Bharti Airtel Ltd.',
-      targetPrice: '₹1,200.00',
+      targetPrice: '₹2,200.00',
       condition: 'Above',
       currentPrice: '₹1,185.65',
       created: '1 day ago'
@@ -54,7 +54,7 @@ const ManageStockAlerts = () => {
 
   return (
     <div className="bg-gray-50 p-4">
-      <h1 className="text-2xl font-bold mb-2">Manage Stock Alerts</h1>
+      <h1 className="text-2xl font-bold mb-2">Manage Stock Alert</h1>
       <p className="text-gray-600 mb-4">Monitor and manage your stock price alerts in one place</p>
 
       {/* Metrics Cards */}
