@@ -49,7 +49,7 @@ router.get('/users', async (req, res) => {
     res.json(users);
   } catch (err) {
     console.error("Get users error:", err);
-    res.status(500).json({ error: "Failed to retrieve users. See server logs." });
+    res.status(500).json({ error: "Failed to retrieve user. See server logs." });
   }
 });
 
