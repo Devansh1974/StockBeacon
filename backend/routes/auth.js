@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const authMiddleware = require('../middlewares/authMiddleware'); // Import middleware
 
 // Register
 router.post('/register', async (req, res) => {
@@ -19,7 +20,7 @@ router.post('/register', async (req, res) => {
     res.json({ message: 'Registration successful' });
   } catch (err) {
     console.error("Registration error:", err);
-    res.status(500).json({ error: "Registration failed.  See server logs." });
+    res.status(500).json({ error: "Registration failed. See server logs." });
   }
 });
 
@@ -42,8 +43,8 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get all users
-router.get('/users', async (req, res) => {
+// Get all users (Protected Route)
+router.get('/users', authMiddleware, async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);

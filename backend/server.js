@@ -14,7 +14,6 @@ app.use(cookieParser());
 
 app.use('/', authRoutes);
 
-
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
@@ -24,7 +23,6 @@ mongoose.connect(process.env.MONGODB_URI)
     console.error('MongoDB connection error:', err);
     process.exit(1); // Exit the process with failure
   });
- 
 
 app.get('/', (req, res) => res.send('Backend is running!'));
 
