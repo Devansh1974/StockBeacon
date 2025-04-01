@@ -6,7 +6,7 @@ StockBeacon is a MERN-stack-based stock market platform built as a Capstone proj
 
 ## Deployed Link of Frontend --
 
-## [Frontend](https://stockbeacon.netlify.app/)
+## [Here is the Frontend Link](https://stockbeacon.netlify.app/)
 
 
 ## Day-by-Day Plan
