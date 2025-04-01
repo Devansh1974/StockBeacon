@@ -16,11 +16,17 @@ app.use('/', authRoutes);
 
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)  // Corrected variable name
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('MongoDB connected');
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1); // Exit the process with failure
+  });
+ 
 
 app.get('/', (req, res) => res.send('Backend is running!'));
 
 const PORT = process.env.PORT || 6900;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`));
