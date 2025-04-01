@@ -15,9 +15,11 @@ router.post('/register', async (req, res) => {
     await user.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.json({ message: 'Registration successful' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Registration error:", err);
+    res.status(500).json({ error: "Registration failed.  See server logs." });
   }
 });
 
@@ -32,9 +34,11 @@ router.post('/login', async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
+     res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.json({ message: 'Login successful' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+     console.error("Login error:", err);
+    res.status(500).json({ error: "Login failed. See server logs." });
   }
 });
 
