@@ -54,7 +54,7 @@ const ManageStockAlerts = () => {
 
   return (
     <div className="bg-gray-50 p-4">
-      <h1 className="text-2xl font-bold mb-2">Manage Stock Alerts</h1>
+      <h1 className="text-2xl font-bold mb-2">Manage Stock Alert</h1>
       <p className="text-gray-600 mb-4">Monitor and manage your stock price alerts in one place</p>
 
       {/* Metrics Cards */}
