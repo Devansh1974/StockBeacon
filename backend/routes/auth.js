@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Loginn
+// Login
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -34,11 +34,22 @@ router.post('/login', async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-     res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     res.json({ message: 'Login successful' });
   } catch (err) {
-     console.error("Login error:", err);
+    console.error("Login error:", err);
     res.status(500).json({ error: "Login failed. See server logs." });
+  }
+});
+
+// Get all users
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    console.error("Get users error:", err);
+    res.status(500).json({ error: "Failed to retrieve user. See server logs." });
   }
 });
 
