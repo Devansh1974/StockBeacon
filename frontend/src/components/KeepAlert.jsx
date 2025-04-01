@@ -24,7 +24,7 @@ const ManageStockAlerts = () => {
       id: 3,
       ticker: 'BHARTIARTL',
       name: 'Bharti Airtel Ltd.',
-      targetPrice: '₹1,200.00',
+      targetPrice: '₹2,200.00',
       condition: 'Above',
       currentPrice: '₹1,185.65',
       created: '1 day ago'
