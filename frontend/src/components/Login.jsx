@@ -15,13 +15,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+  
     if (!email || !password) {
       setMessage('Please fill in all fields.');
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
       const response = await fetch('http://localhost:6900/login', {
         credentials: 'include',
@@ -29,18 +30,17 @@ const Login = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-
+  
       const data = await response.json();
       setLoading(false);
-
+  
       if (response.ok) {
+        console.log("Login successful, received token:", data.token); // Debug log
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify({ username: data.username, email: data.email }));
+  
         setMessage('Login successful!');
-
-        setTimeout(() => {
-          navigate('/');
-        }, 1000);
+        setTimeout(() => navigate('/'), 1000);
       } else {
         setMessage(data.msg || 'Login failed. Please check your credentials.');
       }
