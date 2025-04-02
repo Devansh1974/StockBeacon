@@ -58,14 +58,24 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
+    // Generate JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-    res.json({ message: 'Login successful' });
+
+    // Set token in HTTP-only cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Secure in production
+      sameSite: 'Lax', // Adjust for cross-site requests
+    });
+
+    // ✅ Send token explicitly in response if frontend requires it
+    res.json({ message: 'Login successful', token }); 
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed. See server logs." });
   }
 });
+
 
 // 🔹 Logout (Fixed Callback Issue)
 router.post('/logout', (req, res) => {

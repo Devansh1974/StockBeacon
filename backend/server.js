@@ -19,9 +19,10 @@ app.use(cookieParser());
 app.use(session({
   secret: process.env.JWT_SECRET,
   resave: false,
-  saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production' } // Secure cookie in production
+  saveUninitialized: true,
+  cookie: { secure: false, httpOnly: true }
 }));
+
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -32,10 +33,28 @@ app.use('/', authRoutes);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
-app.get('/', (req, res) => res.send('Backend is running!'));
+// Debugging: Log session details
+app.use((req, res, next) => {
+  console.log("📌 Session Data:", req.session);
+  console.log("📌 User Data:", req.user);
+  next();
+});
+
+
+// ✅ Add `/users` route to get authenticated user info
+app.get('/users', passport.authenticate('session', { session: true }), (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: 'Unauthorized. Please log in.' });
+  }
+  res.json({ user: req.user });
+});
+
+
+// Default Route
+app.get('/', (req, res) => res.send('✅ Backend is running!'));
 
 const PORT = process.env.PORT || 6900;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
