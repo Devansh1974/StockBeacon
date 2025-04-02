@@ -9,6 +9,7 @@ import News from './components/News';
 import Trivia from './components/Trivia';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import Profile from './components/Profile';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/news" element={<News />} />
             <Route path="/trivia" element={<Trivia />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile/>}/>
             <Route path="/signup" element={<SignUp />} />
           </Routes>
         </div>

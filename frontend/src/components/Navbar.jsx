@@ -32,7 +32,7 @@ const Navbar = () => {
     localStorage.removeItem("user");
     setUser(null); // Update state to trigger re-render
 
-    // Wait a bit before navigating to ensure state updates first
+    // Navigate to login page after logout
     setTimeout(() => {
       navigate("/login");
     }, 200); // Delay of 200ms
@@ -94,15 +94,28 @@ const Navbar = () => {
 
         {/* User Authentication */}
         {user ? (
-          <div className="flex flex-col items-center relative">
-            {/* User Icon */}
-            <FaUserCircle className="text-3xl text-indigo-600 cursor-pointer" title={user.email} />
-            {/* User Email Below the Icon */}
-            <span className="text-gray-700 text-sm mt-1">{user.email}</span>
+          <div className="relative flex items-center">
+            {/* Profile Picture (If Available) */}
+            {user.profilePic ? (
+              <img
+                src={user.profilePic}
+                alt="Profile"
+                className="w-10 h-10 rounded-full cursor-pointer border-2 border-indigo-600"
+                onClick={() => navigate("/profile")}
+                title="Go to Profile"
+              />
+            ) : (
+              <FaUserCircle
+                className="text-3xl text-indigo-600 cursor-pointer"
+                title="Go to Profile"
+                onClick={() => navigate("/profile")}
+              />
+            )}
+
             {/* Logout Button */}
             <button
               onClick={handleLogout}
-              className="text-sm text-red-500 hover:text-red-700 mt-1"
+              className="ml-3 text-sm text-red-500 hover:text-red-700"
             >
               Logout
             </button>

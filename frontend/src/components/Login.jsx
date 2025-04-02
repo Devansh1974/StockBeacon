@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
-import image from '../assets/image.png';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import image from "../assets/image.png";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     if (!email || !password) {
-      setMessage('Please fill in all fields.');
+      setMessage("Please fill in all fields.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:6900/login', {
-        credentials: 'include',
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:6900/login", {
+        credentials: "include",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -34,26 +34,30 @@ const Login = () => {
       setLoading(false);
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify({ username: data.username, email: data.email }));
-        setMessage('Login successful!');
+        // Store user data correctly
+        localStorage.setItem("token", data.token);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ username: data.username, email: data.email })
+        );
+        setMessage("Login successful!");
 
         setTimeout(() => {
-          navigate('/');
+          navigate("/profile");
         }, 1000);
       } else {
-        setMessage(data.msg || 'Login failed. Please check your credentials.');
+        setMessage(data.msg || "Login failed. Please check your credentials.");
       }
     } catch (error) {
       setLoading(false);
-      console.error('Error during login:', error);
-      setMessage('Server error. Please try again later.');
+      console.error("Error during login:", error);
+      setMessage("Server error. Please try again later.");
     }
   };
 
   // Handle Google Login
   const handleGoogleLogin = () => {
-    window.open('http://localhost:6900/auth/google', '_self'); // Redirects to backend Google login
+    window.open("http://localhost:6900/auth/google", "_self"); // Redirects to backend Google login
   };
 
   return (
@@ -101,14 +105,18 @@ const Login = () => {
             <button
               type="submit"
               className={`w-full p-3 rounded transition-colors duration-200 mb-4 flex justify-center ${
-                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-indigo-600 hover:bg-indigo-700 text-white"
               }`}
               disabled={loading}
             >
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? "Logging in..." : "Login"}
             </button>
 
-            {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
+            {message && (
+              <p className="mt-4 text-center text-sm text-red-500">{message}</p>
+            )}
           </form>
 
           {/* Google Login Button */}
@@ -121,7 +129,10 @@ const Login = () => {
 
           <div className="mt-8 text-center">
             <p className="text-gray-600">
-              Don't have an account? <Link to="/signup" className="text-indigo-600">Create an Account</Link>
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-indigo-600">
+                Create an Account
+              </Link>
             </p>
           </div>
         </div>

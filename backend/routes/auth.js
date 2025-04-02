@@ -22,6 +22,17 @@ router.get('/auth/google/callback',
   }
 );
 
+// Fetch User Profile (Protected Route)
+router.get('/profile', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password'); // Exclude password
+    res.json(user);
+  } catch (err) {
+    console.error("Profile fetch error:", err);
+    res.status(500).json({ error: "Failed to fetch profile" });
+  }
+});
+
 // 🔹 Register (Manual Signup)
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
