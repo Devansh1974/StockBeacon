@@ -2,17 +2,39 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 const User = require('../models/User');
-const authMiddleware = require('../middlewares/authMiddleware'); // Import middleware
+const authMiddleware = require('../middlewares/authMiddleware');
 
-// Register
+// 🔹 Google Authentication Routes
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Set token in HTTP-only cookie
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
+    // Redirect to frontend after login
+    res.redirect(`${process.env.CLIENT_URL}/`);
+  }
+);
+
+// 🔹 Register (Manual Signup)
 router.post('/register', async (req, res) => {
-  const { username, password, email } = req.body;
+  const { username, email, password } = req.body;
   try {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: 'User already exists' });
 
-    user = new User({ username, password: await bcrypt.hash(password, 10), email });
+    user = new User({ 
+      username, 
+      email, 
+      password: await bcrypt.hash(password, 10) 
+    });
+
     await user.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -24,12 +46,14 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login
+// 🔹 Login (Manual)
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
+
+    if (!user.password) return res.status(400).json({ msg: 'This email is registered via Google. Please log in using Google.' });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
@@ -43,45 +67,13 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get all users (Protected Route)
-router.get('/users', authMiddleware, async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    console.error("Get users error:", err);
-    res.status(500).json({ error: "Failed to retrieve user. See server logs." });
-  }
-});
-
-// Update user details (Protected Route)
-router.put('/users/:id', authMiddleware, async (req, res) => {
-  const { username, email } = req.body;
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ msg: 'User not found' });
-
-    // Ensure the logged-in user is updating their own profile
-    if (user._id.toString() !== req.user.id) {
-      return res.status(403).json({ msg: "Unauthorized to update this user's details" });
-    }
-
-    // Update username and email (if provided)
-    user.username = username || user.username;
-    user.email = email || user.email;
-
-    await user.save();
-    res.json({ message: 'User details updated successfully', user });
-  } catch (err) {
-    console.error("Update user error:", err);
-    res.status(500).json({ error: "Failed to update user. See server logs." });
-  }
-});
-
-// Logout route
+// 🔹 Logout (Fixed Callback Issue)
 router.post('/logout', (req, res) => {
-  res.clearCookie('token');
-  res.json({ message: 'Logged out successfully' });
+  req.logout(err => {
+    if (err) return res.status(500).json({ error: "Logout failed" });
+    res.clearCookie('token');
+    res.json({ message: 'Logged out successfully' });
+  });
 });
 
 module.exports = router;
