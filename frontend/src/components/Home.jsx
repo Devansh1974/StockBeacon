@@ -230,7 +230,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
+      
       {/* AI Chatbot Component */}
       <AIChatbot />
     </div>
