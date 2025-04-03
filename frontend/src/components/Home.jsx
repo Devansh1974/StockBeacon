@@ -1,14 +1,76 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import AIChatbot from './AIChatbot';
 
 const Home = () => {
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  const tradingViewContainer = useRef(null);
 
-  const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
-  };
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
+    script.async = true;
+
+    if (tradingViewContainer.current) {
+      tradingViewContainer.current.appendChild(script);
+    }
+
+    return () => {
+      if (tradingViewContainer.current && script.parentNode) {
+        tradingViewContainer.current.removeChild(script);
+      }
+    };
+  }, []);
 
   return (
     <div className="container mx-auto p-4 relative">
+      {/* TradingView Widget */}
+      <div className="tradingview-widget-container" ref={tradingViewContainer}>
+        <div className="tradingview-widget-container__widget"></div>
+        <div className="tradingview-widget-copyright">
+          <a
+            href="https://www.tradingview.com/"
+            rel="noopener nofollow"
+            target="_blank"
+          >
+            <span className="blue-text">Track all markets on TradingView</span>
+          </a>
+        </div>
+        <script
+          type="application/json"
+          className="tradingview-data-widget-embed"
+        >
+          {JSON.stringify({
+            symbols: [
+              {
+                proName: 'FOREXCOM:SPXUSD',
+                title: 'S&P 500 Index',
+              },
+              {
+                proName: 'BITSTAMP:BTCUSD',
+                title: 'Bitcoin',
+              },
+              {
+                proName: 'BITSTAMP:ETHUSD',
+                title: 'Ethereum',
+              },
+              {
+                description: 'NIFTY50',
+                proName: 'NSE:NIFTY',
+              },
+              {
+                description: 'Sensex',
+                proName: 'BSE:SENSEX',
+              },
+            ],
+            showSymbolLogo: true,
+            isTransparent: false,
+            displayMode: 'adaptive',
+            colorTheme: 'light',
+            locale: 'en',
+          })}
+        </script>
+      </div>
+
       {/* Stock Indices */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-white p-4 rounded-lg shadow-sm">
@@ -31,13 +93,17 @@ const Home = () => {
       {/* Stock Performance and Market Mood */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="md:col-span-2 bg-white p-4 rounded-lg shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Stock Performance</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            Stock Performance
+          </h3>
           <div className="h-48 bg-gray-100 rounded flex items-center justify-center">
             <p className="text-gray-500">Graph Placeholder</p>
           </div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Market Mood Index</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            Market Mood Index
+          </h3>
           <div className="flex flex-col items-center">
             <div className="w-32 h-16 bg-gray-100 rounded mb-2"></div>
             <p className="text-sm text-gray-600">Fear & Greed Index</p>
@@ -48,7 +114,9 @@ const Home = () => {
 
       {/* Trending stocks */}
       <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">Trending Today</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          Trending Today
+        </h3>
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <div>
@@ -62,7 +130,9 @@ const Home = () => {
           </div>
           <div className="flex justify-between items-center">
             <div>
-              <p className="font-medium text-gray-800">Tata Consultancy Services</p>
+              <p className="font-medium text-gray-800">
+                Tata Consultancy Services
+              </p>
               <p className="text-sm text-gray-600">TCS</p>
             </div>
             <div className="text-right">
@@ -85,7 +155,9 @@ const Home = () => {
 
       {/* Top Gainers */}
       <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">Top Gainers</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          Top Gainers
+        </h3>
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <div>
@@ -122,7 +194,9 @@ const Home = () => {
 
       {/* Top Losers */}
       <div className="bg-white p-4 rounded-lg shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">Top Losers</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          Top Losers
+        </h3>
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <div>
@@ -157,37 +231,8 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Fixed AI Chatbot Icon (Larger Size) */}
-      <button
-        onClick={toggleChat}
-        className="fixed bottom-4 right-4 bg-gray-800 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl shadow-lg hover:bg-gray-700 transition-colors duration-200 z-50"
-        aria-label="Open AI Chat"
-      >
-        🤖
-      </button>
-
-      {/* Toggleable Chat Sidebar (Wider) */}
-      {isChatOpen && (
-        <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg p-6 z-50 transition-transform duration-300">
-          <button
-            onClick={toggleChat}
-            className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 text-2xl"
-            aria-label="Close Chat"
-          >
-            ✕
-          </button>
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">AI Assistant</h3>
-          <div className="space-y-4">
-            <p className="text-gray-600">Hello! How can I assist you with StockBeacon?</p>
-            <p className="text-gray-600">Ask me about stock trends, portfolio tips, or anything!</p>
-            <input
-              type="text"
-              placeholder="Type your question..."
-              className="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-300"
-            />
-          </div>
-        </div>
-      )}
+      {/* AI Chatbot Component */}
+      <AIChatbot />
     </div>
   );
 };
