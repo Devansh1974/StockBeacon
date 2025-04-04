@@ -4,9 +4,9 @@ import AIChatbot from "./AIChatbot";
 const Home = () => {
   const tradingViewContainer = useRef(null);
   const chartContainer = useRef(null);
-  const [selectedIndex, setSelectedIndex] = useState("BSE:SENSEX"); // ✅ Sensex as default
+  const [selectedIndex, setSelectedIndex] = useState("BSE:SENSEX");
 
-  // ✅ Load TradingView Ticker Widget (Only Once)
+  // ✅ Load TradingView Ticker Widget 
   useEffect(() => {
     if (!tradingViewContainer.current) return;
 
@@ -42,7 +42,7 @@ const Home = () => {
 
     // ✅ Delay to allow TradingView to load properly
     setTimeout(() => {
-      chartContainer.current.innerHTML = ""; // Clear previous chart
+      chartContainer.current.innerHTML = ""; 
 
       const chartScript = document.createElement("script");
       chartScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
@@ -64,7 +64,7 @@ const Home = () => {
     }, 500); // ✅ Small delay prevents blank screen
 
     return () => {
-      if (chartContainer.current) chartContainer.current.innerHTML = ""; // Cleanup old charts
+      if (chartContainer.current) chartContainer.current.innerHTML = ""; 
     };
   }, [selectedIndex]);
 
