@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
 require('./config/passport'); // Import Passport Config
+const aiRoutes = require('./routes/ai');
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(cookieParser());
+app.use('/api', aiRoutes); 
 
 // Session Middleware (Required for Passport)
 app.use(session({
