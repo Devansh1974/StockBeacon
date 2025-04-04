@@ -6,7 +6,7 @@ const AIChatbot = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [messages, setMessages] = useState([
-    { from: 'bot', text: 'Hi! Ask me anything about the stock market 📈' }
+    { from: 'bot', text: 'Hi! Ask me anything about the stock market 📈', timestamp: new Date().toISOString() }
   ]);
   const [loading, setLoading] = useState(false);
   const [lastBotMessageIdx, setLastBotMessageIdx] = useState(0);
@@ -27,7 +27,10 @@ const AIChatbot = () => {
   const handleSend = async () => {
     if (!userInput.trim()) return;
 
-    const newMessages = [...messages, { from: 'user', text: userInput }];
+    const newMessages = [
+      ...messages,
+      { from: 'user', text: userInput, timestamp: new Date().toISOString() }
+    ];
     setMessages(newMessages);
     setUserInput('');
     setLoading(true);
@@ -38,10 +41,16 @@ const AIChatbot = () => {
       });
 
       const aiReply = response.data.reply;
-      setMessages([...newMessages, { from: 'bot', text: aiReply }]);
-      setLastBotMessageIdx(newMessages.length); // Index where bot replied
+      setMessages([
+        ...newMessages,
+        { from: 'bot', text: aiReply, timestamp: new Date().toISOString() }
+      ]);
+      setLastBotMessageIdx(newMessages.length);
     } catch (error) {
-      setMessages([...newMessages, { from: 'bot', text: 'Error getting AI response.' }]);
+      setMessages([
+        ...newMessages,
+        { from: 'bot', text: 'Error getting AI response.', timestamp: new Date().toISOString() }
+      ]);
       console.error('AI Chat Error:', error);
     }
 
@@ -53,26 +62,51 @@ const AIChatbot = () => {
     const isLatestBotMsg = isBot && idx === lastBotMessageIdx;
 
     return (
-      <div
-        key={idx}
-        className={`p-2 rounded max-w-xs ${
-          isBot
-            ? 'bg-gray-200 text-black'
-            : 'bg-blue-600 text-white text-right ml-auto'
-        }`}
-      >
-        {isLatestBotMsg ? (
-          <Typewriter
-            words={[msg.text]}
-            loop={1}
-            typeSpeed={40}
-            deleteSpeed={0}
-            cursor
-            cursorStyle="_"
-          />
-        ) : (
-          msg.text
-        )}
+      <div key={idx} className={`flex flex-col ${isBot ? 'items-start' : 'items-end'}`}>
+        <div className="flex items-center">
+          {isBot && (
+            <img
+              src="/bot-avatar.png"
+              alt="Bot"
+              className="w-8 h-8 rounded-full mr-2"
+            />
+          )}
+          <div
+            className={`p-2 rounded max-w-xs ${
+              isBot
+                ? 'bg-gray-200 text-black'
+                : 'bg-blue-600 text-white text-right'
+            }`}
+          >
+            {isLatestBotMsg ? (
+              <Typewriter
+                words={[msg.text]}
+                loop={1}
+                typeSpeed={40}
+                deleteSpeed={0}
+                cursor
+                cursorStyle="_"
+              />
+            ) : (
+              msg.text
+            )}
+          </div>
+          {!isBot && (
+            <img
+              src="/user-avatar.png"
+              alt="User"
+              className="w-8 h-8 rounded-full ml-2"
+            />
+          )}
+        </div>
+        {/* Timestamp */}
+        <div className="text-xs text-gray-400 mt-1 pr-2">
+          {msg.timestamp &&
+            new Date(msg.timestamp).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+        </div>
       </div>
     );
   };
