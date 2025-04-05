@@ -8,7 +8,6 @@ const Home = () => {
 
   useEffect(() => {
     if (!tradingViewContainer.current) return;
-
     tradingViewContainer.current.innerHTML = "";
 
     const script = document.createElement("script");
@@ -66,37 +65,40 @@ const Home = () => {
 
   return (
     <div className="container mx-auto p-4 relative">
-      <div className="tradingview-widget-container mb-4" ref={tradingViewContainer}></div>
+      {/* Ticker Widget */}
+      <div
+        ref={tradingViewContainer}
+        className="tradingview-widget-container mb-6"
+      ></div>
 
-      <div className="flex flex-wrap justify-center gap-3 mb-4">
-        <button
-          className={`px-4 py-2 rounded-lg ${
-            selectedIndex === "NSE:NIFTY" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
-          }`}
-          onClick={() => setSelectedIndex("NSE:NIFTY")}
-        >
-          NIFTY 50
-        </button>
-        <button
-          className={`px-4 py-2 rounded-lg ${
-            selectedIndex === "BSE:SENSEX" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
-          }`}
-          onClick={() => setSelectedIndex("BSE:SENSEX")}
-        >
-          SENSEX
-        </button>
-        <button
-          className={`px-4 py-2 rounded-lg ${
-            selectedIndex === "NSE:BANKNIFTY" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
-          }`}
-          onClick={() => setSelectedIndex("NSE:BANKNIFTY")}
-        >
-          BANK NIFTY
-        </button>
+      {/* Index Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 mb-6">
+        {[
+          { label: "NIFTY 50", value: "NSE:NIFTY" },
+          { label: "SENSEX", value: "BSE:SENSEX" },
+          { label: "BANK NIFTY", value: "NSE:BANKNIFTY" },
+        ].map((index) => (
+          <button
+            key={index.value}
+            onClick={() => setSelectedIndex(index.value)}
+            className={`px-5 py-2 rounded-lg text-sm font-medium transition ${
+              selectedIndex === index.value
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+            }`}
+          >
+            {index.label}
+          </button>
+        ))}
       </div>
 
-      <div className="tradingview-widget-container" ref={chartContainer}></div>
+      {/* Chart Widget */}
+      <div
+        ref={chartContainer}
+        className="tradingview-widget-container mb-6"
+      ></div>
 
+      {/* Chatbot */}
       <AIChatbot />
     </div>
   );

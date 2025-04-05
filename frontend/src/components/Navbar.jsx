@@ -44,7 +44,7 @@ const Navbar = () => {
     <nav className="bg-white shadow-md px-4 py-3">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         {/* Logo */}
-        <div className="text-2xl font-bold text-indigo-600">Stock Beacon</div>
+        <div className="text-3xl font-bold text-indigo-600">Stock Beacon</div>
 
         {/* Hamburger Icon (mobile) */}
         <div className="md:hidden text-2xl cursor-pointer" onClick={() => setMenuOpen(!menuOpen)}>
