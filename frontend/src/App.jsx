@@ -15,7 +15,7 @@ const App = () => {
     <Router>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <div className="container mx-auto mt-6 p-4 flex-grow">
+        <main className="flex-grow px-4 sm:px-6 lg:px-8 py-6">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/portfolio" element={<Portfolio />} />
@@ -25,7 +25,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
           </Routes>
-        </div>
+        </main>
         <Footer />
       </div>
     </Router>

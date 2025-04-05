@@ -6,11 +6,8 @@ const Home = () => {
   const chartContainer = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState("BSE:SENSEX");
 
-  // ✅ Load TradingView Ticker Widget 
   useEffect(() => {
     if (!tradingViewContainer.current) return;
-
-    // ✅ Clear previous scripts
     tradingViewContainer.current.innerHTML = "";
 
     const script = document.createElement("script");
@@ -36,13 +33,11 @@ const Home = () => {
     tradingViewContainer.current.appendChild(script);
   }, []);
 
-  // ✅ Load Chart Widget & Prevent Blank Screen
   useEffect(() => {
     if (!chartContainer.current || !selectedIndex) return;
 
-    // ✅ Delay to allow TradingView to load properly
     setTimeout(() => {
-      chartContainer.current.innerHTML = ""; 
+      chartContainer.current.innerHTML = "";
 
       const chartScript = document.createElement("script");
       chartScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
@@ -61,44 +56,49 @@ const Home = () => {
       });
 
       chartContainer.current.appendChild(chartScript);
-    }, 500); // ✅ Small delay prevents blank screen
+    }, 500);
 
     return () => {
-      if (chartContainer.current) chartContainer.current.innerHTML = ""; 
+      if (chartContainer.current) chartContainer.current.innerHTML = "";
     };
   }, [selectedIndex]);
 
   return (
     <div className="container mx-auto p-4 relative">
-      {/* ✅ TradingView Ticker Widget */}
-      <div className="tradingview-widget-container mb-4" ref={tradingViewContainer}></div>
+      {/* Ticker Widget */}
+      <div
+        ref={tradingViewContainer}
+        className="tradingview-widget-container mb-6"
+      ></div>
 
-      {/* ✅ Live Index Buttons */}
-      <div className="flex justify-center space-x-4 mb-4">
-        <button
-          className={`px-4 py-2 rounded-lg ${selectedIndex === "NSE:NIFTY" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
-          onClick={() => setSelectedIndex("NSE:NIFTY")}
-        >
-          NIFTY 50
-        </button>
-        <button
-          className={`px-4 py-2 rounded-lg ${selectedIndex === "BSE:SENSEX" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
-          onClick={() => setSelectedIndex("BSE:SENSEX")}
-        >
-          SENSEX
-        </button>
-        <button
-          className={`px-4 py-2 rounded-lg ${selectedIndex === "NSE:BANKNIFTY" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
-          onClick={() => setSelectedIndex("NSE:BANKNIFTY")}
-        >
-          BANK NIFTY
-        </button>
+      {/* Index Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 mb-6">
+        {[
+          { label: "NIFTY 50", value: "NSE:NIFTY" },
+          { label: "SENSEX", value: "BSE:SENSEX" },
+          { label: "BANK NIFTY", value: "NSE:BANKNIFTY" },
+        ].map((index) => (
+          <button
+            key={index.value}
+            onClick={() => setSelectedIndex(index.value)}
+            className={`px-5 py-2 rounded-lg text-sm font-medium transition ${
+              selectedIndex === index.value
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+            }`}
+          >
+            {index.label}
+          </button>
+        ))}
       </div>
 
-      {/* ✅ TradingView Chart Widget */}
-      <div className="tradingview-widget-container" ref={chartContainer}></div>
+      {/* Chart Widget */}
+      <div
+        ref={chartContainer}
+        className="tradingview-widget-container mb-6"
+      ></div>
 
-      {/* ✅ AI Chatbot Component */}
+      {/* Chatbot */}
       <AIChatbot />
     </div>
   );
