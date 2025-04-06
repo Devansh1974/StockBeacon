@@ -153,7 +153,10 @@ const AIChatbot = () => {
             </button>
           </div>
 
-          
+          <label className="mt-2 text-sm text-blue-600 hover:underline cursor-pointer border-1 p-1 ">
+            <input type="file" onChange={handleFileUpload} className="hidden" />
+            Upload Image/Document
+          </label>
         </div>
       )}
     </>
