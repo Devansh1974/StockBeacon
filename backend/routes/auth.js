@@ -17,6 +17,8 @@ router.get('/auth/google/callback',
     // Set token in HTTP-only cookie
     res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
 
+    console.log(`📖 DB READ: Google user authenticated -> ${req.user.email}`);
+
     // Redirect to frontend after login
     res.redirect(`${process.env.CLIENT_URL}/`);
   }
@@ -27,6 +29,8 @@ router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
   try {
     let user = await User.findOne({ email });
+    console.log(`📖 DB READ: Checked if user exists -> ${email}`);
+
     if (user) return res.status(400).json({ msg: 'User already exists' });
 
     user = new User({ 
@@ -36,6 +40,7 @@ router.post('/register', async (req, res) => {
     });
 
     await user.save();
+    console.log(`📝 DB WRITE: New user registered -> ${email}`);
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
@@ -51,6 +56,8 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
+    console.log(`📖 DB READ: Login attempt -> ${email}`);
+
     if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
 
     if (!user.password) return res.status(400).json({ msg: 'This email is registered via Google. Please log in using Google.' });
@@ -66,14 +73,8 @@ router.post('/login', async (req, res) => {
       sameSite: 'Lax',
     });
 
-    res.json({ 
-      message: 'Login successful', 
-      token,
-      userId: user._id, 
-      username: user.username,
-      email: user.email 
-    });
-
+    //  Send token explicitly in response if frontend requires it
+    res.json({ message: 'Login successful', token }); 
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed. See server logs." });
@@ -81,12 +82,12 @@ router.post('/login', async (req, res) => {
 });
 
 
-
-// Logout (Fixed Callback Issue)
+// Logout
 router.post('/logout', (req, res) => {
   req.logout(err => {
     if (err) return res.status(500).json({ error: "Logout failed" });
     res.clearCookie('token');
+    console.log('✅ User logged out');
     res.json({ message: 'Logged out successfully' });
   });
 });
