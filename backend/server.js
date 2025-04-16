@@ -8,6 +8,7 @@ const passport = require('passport');
 const session = require('express-session');
 require('./config/passport'); // Import Passport Config
 const aiRoutes = require('./routes/ai');
+const triviaRoutes = require('./routes/trivia.js')
 
 dotenv.config();
 const app = express();
@@ -32,6 +33,8 @@ app.use(passport.session());
 
 // Routes
 app.use('/', authRoutes);
+
+app.use('/api', triviaRoutes);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)

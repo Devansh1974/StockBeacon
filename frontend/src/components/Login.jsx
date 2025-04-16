@@ -36,10 +36,14 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId); // 👈 This line is the key fix
         localStorage.setItem('user', JSON.stringify({ username: data.username, email: data.email }));
+        console.log("✅ userId saved:", data.userId);
         setMessage('Login successful!');
         setTimeout(() => navigate('/'), 1000);
-      } else {
+      }
+      
+      else {
         setMessage(data.msg || 'Login failed. Please check your credentials.');
       }
     } catch (error) {

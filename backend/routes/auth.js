@@ -73,12 +73,14 @@ router.post('/login', async (req, res) => {
       sameSite: 'Lax',
     });
 
-    res.json({ message: 'Login successful', token });
+    //  Send token explicitly in response if frontend requires it
+    res.json({ message: 'Login successful', token }); 
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed. See server logs." });
   }
 });
+
 
 // Logout
 router.post('/logout', (req, res) => {
