@@ -6,7 +6,7 @@ const passport = require('passport');
 const User = require('../models/User');
 const authMiddleware = require('../middlewares/authMiddleware');
 
-// 🔹 Google Authentication Routes
+// Google Authentication Routes
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback', 
@@ -22,7 +22,7 @@ router.get('/auth/google/callback',
   }
 );
 
-// 🔹 Register (Manual Signup)
+// Register (Manual Signup)
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// 🔹 Login (Manual)
+// Login (Manual)
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -68,7 +68,7 @@ router.post('/login', async (req, res) => {
       sameSite: 'Lax', // Adjust for cross-site requests
     });
 
-    // ✅ Send token explicitly in response if frontend requires it
+    //  Send token explicitly in response if frontend requires it
     res.json({ message: 'Login successful', token }); 
   } catch (err) {
     console.error("Login error:", err);
@@ -77,7 +77,7 @@ router.post('/login', async (req, res) => {
 });
 
 
-// 🔹 Logout (Fixed Callback Issue)
+// Logout (Fixed Callback Issue)
 router.post('/logout', (req, res) => {
   req.logout(err => {
     if (err) return res.status(500).json({ error: "Logout failed" });

@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 });
 
 
-// ✅ Add `/users` route to get authenticated user info
+// Add `/users` route to get authenticated user info
 app.get('/users', passport.authenticate('session', { session: true }), (req, res) => {
   if (!req.user) {
     return res.status(401).json({ message: 'Unauthorized. Please log in.' });
