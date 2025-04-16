@@ -92,4 +92,39 @@ router.post('/logout', (req, res) => {
   });
 });
 
+// UPDATE user profile
+router.put('/update', authMiddleware, async (req, res) => {
+  const { username, email, profilePic } = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: { username, email, profilePic } },
+      { new: true, runValidators: true }
+    );
+
+    console.log(`✏️ DB UPDATE: User profile updated -> ${updatedUser.email}`);
+    res.json({ message: 'Profile updated successfully', user: updatedUser });
+  } catch (err) {
+    console.error("Profile update error:", err);
+    res.status(500).json({ error: "Update failed" });
+  }
+});
+
+// DELETE user account
+router.delete('/delete', authMiddleware, async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.user.id);
+    if (!deletedUser) return res.status(404).json({ message: 'User not found' });
+
+    res.clearCookie('token');
+    console.log(`🗑️ DB DELETE: User account deleted -> ${deletedUser.email}`);
+    res.json({ message: 'Account deleted successfully' });
+  } catch (err) {
+    console.error("Delete account error:", err);
+    res.status(500).json({ error: "Account deletion failed" });
+  }
+});
+
+
 module.exports = router;
