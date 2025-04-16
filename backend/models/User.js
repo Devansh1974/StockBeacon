@@ -15,16 +15,29 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: 6, // Password only required for manual signup
+    minlength: 6,
   },
   googleId: {
-    type: String, // Stores Google's unique user ID
+    type: String,
     unique: true,
-    sparse: true, // Allows null values for manual users
+    sparse: true,
   },
   profilePic: {
-    type: String, // Stores profile picture URL from Google
-  }
+    type: String,
+  },
+  
+  triviaResults: [ // 🔗 Stores references to trivia results
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'TriviaResult',
+    }
+  ],
+
+  totalCoins: {
+    type: Number,
+    default: 0, // This will store the cumulative total coins of the user
+  },
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

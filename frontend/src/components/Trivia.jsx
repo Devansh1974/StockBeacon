@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import financeQuestions from './TriviaQns';
 import { FaCoins, FaStar, FaPlayCircle } from 'react-icons/fa';
 
@@ -12,6 +12,53 @@ const Trivia = () => {
   const [scoreHistory, setScoreHistory] = useState([]);
   const [showResult, setShowResult] = useState(false);
 
+  // Fetch the userId from localStorage (assuming it's stored after login)
+  const userId = localStorage.getItem('userId'); // Adjust this if needed
+
+  // Function to send trivia results to backend (without token)
+  const sendResultToBackend = async (finalScore, finalCoins) => {
+    try {
+      if (!userId) {
+        return console.error('❌ No user ID found!');
+      }
+
+      const res = await fetch('/api/trivia/result', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          score: finalScore,
+          coinsEarned: finalCoins,
+          difficulty: difficulty,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to save result');
+      console.log('✅ Trivia result saved to backend!');
+    } catch (err) {
+      console.error('❌ Error sending result:', err.message);
+    }
+  };
+
+  const fetchUserCoins = async () => {
+    try {
+      if (!userId) return;
+
+      const res = await fetch(`/api/users/${userId}`);  // Assuming this is the endpoint that fetches user data
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to fetch user coins');
+      
+      const totalCoins = data.triviaResults.reduce((total, result) => total + result.coinsEarned, 0);
+      setCoins(totalCoins);
+      setScoreHistory(data.triviaResults);
+    } catch (err) {
+      console.error('❌ Error fetching user data:', err.message);
+    }
+  };
+
   const handleStartQuiz = (level) => {
     const shuffledQuestions = [...financeQuestions[level]].sort(() => Math.random() - 0.5).slice(0, 5);
     setDifficulty(level);
@@ -24,16 +71,21 @@ const Trivia = () => {
   };
 
   const handleAnswer = (selectedOption) => {
-    if (selectedOption === questions[currentQuestion].answer) {
+    const isCorrect = selectedOption === questions[currentQuestion].answer;
+    const newScore = score + (isCorrect ? 1 : 0);
+    const newCoins = newScore * 10;
+
+    if (isCorrect) {
       setScore(prev => prev + 1);
       setCoins(prev => prev + 10);
     }
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(prev => prev + 1);
     } else {
-      const finalScore = score + (selectedOption === questions[currentQuestion].answer ? 1 : 0);
-      const finalCoins = finalScore * 10;
-      setScoreHistory([...scoreHistory, { difficulty, score: finalScore, coinsEarned: finalCoins }]);
+      const newEntry = { difficulty, score: newScore, coinsEarned: newCoins };
+      setScoreHistory([...scoreHistory, newEntry]);
+      sendResultToBackend(newScore, newCoins); // Send results to backend here
       setShowResult(true);
     }
   };
@@ -47,6 +99,12 @@ const Trivia = () => {
     setDifficulty('');
     setShowResult(false);
   };
+
+  useEffect(() => {
+    if (userId) {
+      fetchUserCoins(); // Fetch user coins and score history once the component is mounted and userId is available
+    }
+  }, [userId]);
 
   return (
     <div className="container mx-auto p-4 flex flex-col md:flex-row gap-6">
@@ -132,7 +190,7 @@ const Trivia = () => {
         <div className="p-6 bg-yellow-100 rounded-2xl shadow-md text-center">
           <h4 className="text-xl font-semibold text-gray-800 mb-2">Total Coins Collected</h4>
           <p className="text-3xl font-bold text-yellow-600 flex justify-center items-center">
-            {scoreHistory.reduce((total, entry) => total + entry.coinsEarned, 0)}
+            {coins}
             <FaCoins className="ml-2" />
           </p>
         </div>
