@@ -24,7 +24,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:6900/login', {
+      const response = await fetch('https://s69-devansh-capstone-stockbeacon-1.onrender.com/login', {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,7 +54,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.open('http://localhost:6900/auth/google', '_self');
+    window.open('https://s69-devansh-capstone-stockbeacon-1.onrender.com/auth/google', '_self');
   };
 
   return (

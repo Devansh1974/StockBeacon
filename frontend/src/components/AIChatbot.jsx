@@ -29,7 +29,7 @@ const AIChatbot = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:6900/api/chat', { query: userInput }, { withCredentials: true });
+      const response = await axios.post('https://s69-devansh-capstone-stockbeacon-1.onrender.com/api/chat', { query: userInput }, { withCredentials: true });
       const aiReply = response.data.reply;
 
       setMessages([
@@ -61,7 +61,7 @@ const AIChatbot = () => {
     }]);
 
     try {
-      const response = await axios.post('http://localhost:6900/api/analyze-file', formData, {
+      const response = await axios.post('https://s69-devansh-capstone-stockbeacon-1.onrender.com/api/analyze-file', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
       });
