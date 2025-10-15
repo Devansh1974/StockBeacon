@@ -1,23 +1,178 @@
-# StockBeacon: Stock Market Alert System
+# 🏦 Stock Beacon
 
-## Project Idea
-StockBeacon is a MERN-stack-based stock market platform built as a Capstone project to demonstrate full-stack development skills. It provides real-time stock data, a dummy portfolio tracker, customizable price alerts, stock-specific news, a market mood indicator, and a trivia quiz section. The core feature is an alert system that notifies users of significant price movements, inspired by my personal struggle with missing stock investment opportunities due to poor timing. This project aims to empower users with timely insights and is scoped for a 35-day development cycle (March 03, 2025 - April 15, 2025), targeting 8-10 Capstone points.
+**Your AI-powered companion for smarter stock learning and trading.**  
+Stock Beacon is a full-fledged **MERN Stack** application designed to make stock tracking, learning, and investing effortless — powered by **AI, automation, and real-time data**.
+
 ---
 
-## Deployed Link of Frontend and Backend --
+## 🌟 Overview
 
-## [Here is the Frontend Link](https://stockbeacon.netlify.app/)
+**Stock Beacon** bridges the gap between *stock education* and *real-time tracking*.  
+It empowers users to:
+- 📈 Track live indices like NIFTY, SENSEX, and BANK NIFTY.
+- 🤖 Interact with an AI chatbot for stock-related queries.
+- 💼 Manage and analyze their personal portfolios.
+- 🔔 Set alerts for price limits and get AI-powered notifications.
+- 🧠 Learn through quizzes tailored for beginners.
+- 📰 Read verified market news from trusted APIs.
+- 💳 Access premium content securely using Razorpay.
+- 🔐 Enjoy seamless sign-in via Google Authentication.
 
-## [Here is the Backend Link](https://s69-devansh-capstone-stockbeacon.onrender.com)
+> A complete stock ecosystem for both learners and investors.
 
+---
 
-## Day-by-Day Plan
-- **Day 1-3 (Mar 03-05)**: Set up GitHub repo, initialize MERN structure, create low-fidelity designs in Figma.
-- **Day 4-6 (Mar 06-08)**: Design high-fidelity UI in Figma, initialize React app with basic components.
-- **Day 7-10 (Mar 09-12)**: Set up Express server, MongoDB, JWT authentication, and Login page.
-- **Day 11-15 (Mar 13-17)**: Build Dashboard with Alpha Vantage API and Portfolio page with CRUD APIs.
-- **Day 16-20 (Mar 18-22)**: Implement Alert system with settings and notifications.
-- **Day 21-24 (Mar 23-26)**: Add News section with NewsAPI and Market Mood indicator.
-- **Day 25-28 (Mar 27-30)**: Develop Trivia section with static questions and scoring.
-- **Day 29-30 (Mar 31-Apr 01)**: Deploy backend (Render) and frontend (Netlify), finalize GitHub Projects.
-- **Day 31-35 (Apr 02-07)**: Test, polish, and submit Capstone project.
+## ⚙️ Key Features
+
+- **AI Chatbot:** Ask any stock market question — from basic concepts to live updates.  
+- **Live Market Data:** TradingView integration provides real-time charts for Sensex, Nifty, and more.  
+- **Portfolio Management:** Track holdings and performance with AI-driven analytics.  
+- **Smart Alerts:** Set buy/sell thresholds and receive notifications instantly.  
+- **Trivia Section:** Fun, gamified quizzes to make learning enjoyable.  
+- **News Feed:** Stay ahead with authentic, automatically updated financial news.  
+- **Razorpay Premium Access:** Unlock advanced features and news insights.  
+- **Google Auth:** Fast and secure login powered by OAuth 2.0.
+
+---
+
+## 🧩 Tech Stack
+
+| Layer | Technologies Used |
+|-------|--------------------|
+| **Frontend** | React.js, Tailwind CSS, TradingView Widget, Context API |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB (Mongoose) |
+| **Integrations** | Google OAuth 2.0, Razorpay API, News API |
+| **AI Engine** | Custom AI assistant integrated via backend APIs |
+| **Hosting** | Render (Backend) + Netlify/Vercel (Frontend) |
+
+---
+
+## 🗂️ Folder Structure
+
+```
+StockBeacon/
+├── backend/
+│   ├── config/
+│   ├── middlewares/
+│   ├── models/
+│   ├── routes/
+│   ├── passport.js
+│   ├── ai.js
+│   ├── auth.js
+│   ├── server.js
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── AIChatbot.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Trivia.jsx
+│   │   │   ├── SignUp.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Portfolio.jsx
+│   │   │   ├── KeepAlert.jsx
+│   │   │   └── News.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   ├── index.css
+│   └── vite.config.js
+└── README.md
+```
+
+---
+
+## 🖼️ Screenshots (Preview)
+
+| Page | Description |
+|------|--------------|
+| **Home Page** | Real-time market dashboard with candlestick charts and stock widgets. |
+| **AI Chatbot** | Conversational AI that answers any stock market question. |
+| **Portfolio Page** | Analyze and visualize personal holdings with insights. |
+| **Keep Alert Page** | Set custom limits to receive alerts for your target stocks. |
+| **Trivia Page** | Interactive quiz for beginners to learn while earning coins. |
+| **News Page** | Aggregated financial news from authentic APIs. |
+
+*(Attach screenshots under each section for visual representation.)*
+
+---
+
+## 🧠 AI Chatbot
+
+The AI Chatbot acts as a **personal stock assistant**, capable of:
+- Explaining stock terms and trends.  
+- Providing updates about indices and company stocks.  
+- Answering educational queries about finance and investing.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Devansh1974/StockBeacon.git
+cd stockbeacon
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+cd frontend && npm install
+```
+
+### 3. Environment Variables
+Create a `.env` file in the backend root with your own following keys:
+
+```env
+MONGO_URI=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+RAZORPAY_KEY_ID=
+RAZORPAY_SECRET=
+NEWS_API_KEY=
+PORT=5000
+```
+
+### 4. Run Application
+```bash
+# Run backend
+npm run server
+
+# Run frontend
+cd frontend
+npm run dev
+```
+
+---
+
+## 🌐 Deployment Links
+
+- **Frontend:** [Live URL](stockbeaconn.netlify.app)  
+- **Backend:** [Render Deployment](https://s69-devansh-capstone-stockbeacon.onrender.com/)
+
+---
+
+## 🔮 Future Enhancements
+
+- Stock price prediction using Machine Learning.  
+- Social sharing of portfolio analytics.  
+- Personalized learning paths for beginners.  
+- Mobile app version of Stock Beacon.  
+
+---
+
+## 👤 Author
+
+**Developed by:** [Devansh Singh](https://www.linkedin.com/in/devanshsingh2006/)  
+📧 **Email:** [devanshsingh1974@gmail.com](mailto:devanshsingh1974@gmail.com)
+
+---
+
+## ⚖️ License
+
+This project is licensed under the **MIT License** – feel free to use and modify with credit.
+
+---
+
+**© 2025 Stock Beacon | Built with ❤️ by Devansh Singh**
