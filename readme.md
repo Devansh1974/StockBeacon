@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="./frontend/src/assets/stockbeacon-logo.png" alt="Stock Beacon Logo" width="120"/>
-</p>
+
 
 <h1 align="center">Stock Beacon</h1>
 
@@ -115,7 +113,7 @@ Conversational AI that answers any stock market question.
 
 ### 💼 🔔 Portfolio and Alert Page  
 Analyze and visualize personal holdings with insights of getting limits alerts for your targeted stocks.  
-![Portfolio Page](./frontend/src/assets/portfolio.png)
+![Portfolio Page](./frontend/src/assets/alert.png)
 
 
 ---
