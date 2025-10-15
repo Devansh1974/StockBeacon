@@ -35,6 +35,13 @@ It empowers users to:
 
 ---
 
+## 🌐 Deployment Links
+
+- **Frontend:** [Live URL](stockbeaconn.netlify.app)  
+- **Backend:** [Render Deployment](https://s69-devansh-capstone-stockbeacon.onrender.com/)
+
+---
+
 ## ⚙️ Key Features
 
 - **AI Chatbot:** Ask any stock market question — from basic concepts to live updates.  
@@ -179,12 +186,6 @@ npm run dev
 
 ---
 
-## 🌐 Deployment Links
-
-- **Frontend:** [Live URL](stockbeaconn.netlify.app)  
-- **Backend:** [Render Deployment](https://s69-devansh-capstone-stockbeacon.onrender.com/)
-
----
 
 ## 🔮 Future Enhancements
 
