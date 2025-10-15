@@ -97,15 +97,10 @@ Conversational AI that answers any stock market question.
 
 ---
 
-### 💼 Portfolio Page  
-Analyze and visualize personal holdings with insights.  
+### 💼 🔔 Portfolio and Alert Page  
+Analyze and visualize personal holdings with insights of getting limits alerts for your targeted stocks.  
 ![Portfolio Page](./frontend/src/assets/portfolio.png)
 
----
-
-### 🔔 Keep Alert Page  
-Set custom limits to receive alerts for your target stocks.  
-![Keep Alert Page](./frontend/src/assets/keepalert.png)
 
 ---
 
