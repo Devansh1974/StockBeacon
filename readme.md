@@ -170,7 +170,7 @@ PORT=5000
 ### 4. Run Application
 ```bash
 # Run backend
-npm run server
+npm start
 
 # Run frontend
 cd frontend
