@@ -37,7 +37,7 @@ It empowers users to:
 
 ## 🌐 Deployment Links
 
-- **Frontend:** [Live URL](stockbeaconn.netlify.app)  
+- **Frontend:** [Live URL](https://stockbeaconn.netlify.app)  
 - **Backend:** [Render Deployment](https://s69-devansh-capstone-stockbeacon.onrender.com/)
 
 ---
