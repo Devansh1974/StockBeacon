@@ -86,7 +86,8 @@ StockBeacon/
 ## 🖼️ Screenshots (Preview)
 
 ### 🏠 Home Page  
-Real-time market dashboard with candlestick charts and stock widgets.  
+Real-time market dashboard with candlestick charts and stock widgets. 
+![Login & Signup](./frontend/src/assets/home1.png) 
 ![Home Page](./frontend/src/assets/home.png)
 
 ---
