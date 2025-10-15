@@ -1,9 +1,24 @@
-# 🏦 Stock Beacon
+<p align="center">
+  <img src="./frontend/src/assets/stockbeacon-logo.png" alt="Stock Beacon Logo" width="120"/>
+</p>
 
-**Your AI-powered companion for smarter stock learning and trading.**  
-Stock Beacon is a full-fledged **MERN Stack** application designed to make stock tracking, learning, and investing effortless — powered by **AI, automation, and real-time data**.
+<h1 align="center">Stock Beacon</h1>
+
+<p align="center">
+  <b>Your AI-powered Stock Learning and Tracking Platform.</b><br/>
+  Smarter investing starts here — track markets, learn with AI, and trade with confidence.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Stack-MERN-green?style=flat-square"/>
+  <img src="https://img.shields.io/badge/AI-Chatbot-blue?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Auth-Google-lightgrey?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Payments-Razorpay-blue?style=flat-square"/>
+  <img src="https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square"/>
+</p>
 
 ---
+
 
 ## 🌟 Overview
 
