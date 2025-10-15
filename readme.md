@@ -85,18 +85,42 @@ StockBeacon/
 
 ## 🖼️ Screenshots (Preview)
 
-| Page | Description |
-|------|--------------|
-| **Home Page** | Real-time market dashboard with candlestick charts and stock widgets. |
-| **AI Chatbot** | Conversational AI that answers any stock market question. |
-| **Portfolio Page** | Analyze and visualize personal holdings with insights. |
-| **Keep Alert Page** | Set custom limits to receive alerts for your target stocks. |
-| **Trivia Page** | Interactive quiz for beginners to learn while earning coins. |
-| **News Page** | Aggregated financial news from authentic APIs. |
-
-*(Attach screenshots under each section for visual representation.)*
+### 🏠 Home Page  
+Real-time market dashboard with candlestick charts and stock widgets.  
+![Home Page](./frontend/src/assets/home.png)
 
 ---
+
+### 🤖 AI Chatbot  
+Conversational AI that answers any stock market question.  
+![AI Chatbot](./frontend/src/assets/chatbot.png)
+
+---
+
+### 💼 Portfolio Page  
+Analyze and visualize personal holdings with insights.  
+![Portfolio Page](./frontend/src/assets/portfolio.png)
+
+---
+
+### 🔔 Keep Alert Page  
+Set custom limits to receive alerts for your target stocks.  
+![Keep Alert Page](./frontend/src/assets/keepalert.png)
+
+---
+
+### 🧠 Trivia Page  
+Interactive quiz for beginners to learn while earning coins.  
+![Trivia Page](./frontend/src/assets/trivia.png)
+
+---
+
+### 📰 News Page  
+Aggregated financial news from authentic APIs.  
+![News Page](./frontend/src/assets/news.png)
+
+---
+
 
 ## 🧠 AI Chatbot
 
