@@ -22,7 +22,7 @@ const Trivia = () => {
         return console.error('❌ No user ID found!');
       }
 
-      const res = await fetch('/api/trivia/result', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:6900'}/api/trivia/result`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const Trivia = () => {
     try {
       if (!userId) return;
 
-      const res = await fetch(`/api/users/${userId}`);  // Assuming this is the endpoint that fetches user data
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:6900'}/api/users/${userId}`);  // Assuming this is the endpoint that fetches user data
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to fetch user coins');
       

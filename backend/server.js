@@ -8,7 +8,10 @@ const passport = require('passport');
 const session = require('express-session');
 require('./config/passport'); // Import Passport Config
 const aiRoutes = require('./routes/ai');
-const triviaRoutes = require('./routes/trivia.js')
+const triviaRoutes = require('./routes/trivia.js');
+const portfolioRoutes = require('./routes/portfolio');
+const alertRoutes = require('./routes/alerts');
+const startAlertChecker = require('./services/alertChecker');
 
 dotenv.config();
 const app = express();
@@ -35,10 +38,15 @@ app.use(passport.session());
 app.use('/', authRoutes);
 
 app.use('/api', triviaRoutes);
+app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/alerts', alertRoutes);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ MongoDB connected'))
+  .then(() => {
+    console.log('✅ MongoDB connected');
+    startAlertChecker();
+  })
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Debugging: Log session details

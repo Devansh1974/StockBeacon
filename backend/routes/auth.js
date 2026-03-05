@@ -74,7 +74,7 @@ router.post('/login', async (req, res) => {
     });
 
     //  Send token explicitly in response if frontend requires it
-    res.json({ message: 'Login successful', token }); 
+    res.json({ message: 'Login successful', token, userId: user._id, username: user.username, email: user.email }); 
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed. See server logs." });

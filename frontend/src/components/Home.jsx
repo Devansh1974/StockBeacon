@@ -8,6 +8,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!tradingViewContainer.current) return;
+    if (tradingViewContainer.current.querySelector('script')) return; // Prevent duplicate injection
     tradingViewContainer.current.innerHTML = "";
 
     const script = document.createElement("script");
@@ -35,9 +36,13 @@ const Home = () => {
 
   useEffect(() => {
     if (!chartContainer.current || !selectedIndex) return;
+    
+    // Clean up previous chart completely before injecting new one
+    chartContainer.current.innerHTML = "";
 
-    setTimeout(() => {
-      chartContainer.current.innerHTML = "";
+    const timeoutId = setTimeout(() => {
+      if (!chartContainer.current) return;
+      if (chartContainer.current.querySelector('script')) return;
 
       const chartScript = document.createElement("script");
       chartScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
@@ -59,6 +64,7 @@ const Home = () => {
     }, 500);
 
     return () => {
+      clearTimeout(timeoutId);
       if (chartContainer.current) chartContainer.current.innerHTML = "";
     };
   }, [selectedIndex]);

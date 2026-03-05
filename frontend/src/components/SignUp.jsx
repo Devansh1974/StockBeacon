@@ -22,7 +22,7 @@ const SignUp = ({ setIsAuthenticated }) => {
     }
 
     try {
-      const response = await axios.post('https://s69-devansh-capstone-stockbeacon-1.onrender.com/register', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:6900'}/register`, {
         username,
         email,
         password

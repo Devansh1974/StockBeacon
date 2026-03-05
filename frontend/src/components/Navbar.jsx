@@ -8,6 +8,7 @@ const Navbar = () => {
   const currentPath = location.pathname;
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -64,17 +65,35 @@ const Navbar = () => {
               {label}
             </Link>
           ))}
-          <span className="text-xl cursor-pointer">🔍</span>
           {user ? (
-            <div className="flex flex-col items-center">
-              <FaUserCircle className="text-2xl text-indigo-600" title={user.email} />
-              <span className="text-gray-700 text-sm">{user.email}</span>
-              <button
-                onClick={handleLogout}
-                className="text-sm text-red-500 hover:text-red-700"
+            <div className="relative">
+              <div 
+                className="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-100 transition"
+                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
               >
-                Logout
-              </button>
+                <FaUserCircle className="text-2xl text-indigo-600" />
+                <span className="text-gray-700 text-sm font-medium">
+                  {user.username || (user.email ? user.email.split('@')[0] : 'User')}
+                </span>
+              </div>
+              
+              {profileDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-lg py-2 z-50">
+                  <div className="px-4 py-2 border-b border-gray-50 mb-1">
+                    <p className="text-sm font-bold text-gray-800 truncate">{user.username || 'User'}</p>
+                    <p className="text-xs text-gray-500 truncate">{user.email || ''}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      handleLogout();
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <button
@@ -102,19 +121,21 @@ const Navbar = () => {
               {label}
             </Link>
           ))}
-          <span className="text-xl cursor-pointer">🔍</span>
           {user ? (
-            <div className="flex flex-col items-start">
-              <div className="flex items-center gap-2 mt-2">
-                <FaUserCircle className="text-2xl text-indigo-600" />
-                <span className="text-gray-700 text-sm">{user.email}</span>
+            <div className="flex flex-col items-start border-t border-gray-100 pt-3 mt-3">
+              <div className="flex items-center gap-3 mt-2 px-2">
+                <FaUserCircle className="text-3xl text-indigo-600" />
+                <div className="flex flex-col">
+                  <span className="text-gray-800 font-semibold">{user.username || 'User'}</span>
+                  <span className="text-gray-500 text-xs">{user.email}</span>
+                </div>
               </div>
               <button
                 onClick={() => {
                   handleLogout();
                   setMenuOpen(false);
                 }}
-                className="text-sm text-red-500 hover:text-red-700 mt-1"
+                className="text-sm font-medium text-red-500 hover:text-red-700 mt-4 px-2"
               >
                 Logout
               </button>
