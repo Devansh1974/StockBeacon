@@ -11,6 +11,13 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Landing from './components/Landing';
 import ProtectedRoute from './components/ProtectedRoute';
+import axios from 'axios';
+
+// Configure Axios defaults on initial load
+const token = localStorage.getItem('token');
+if (token) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
 
 const App = () => {
   return (

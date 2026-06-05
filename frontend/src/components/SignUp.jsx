@@ -30,7 +30,9 @@ const SignUp = ({ setIsAuthenticated }) => {
 
       if (response.status === 200) {
         setMessage('Sign-up successful! Redirecting...');
-        setIsAuthenticated(true); // Update auth state
+        if (typeof setIsAuthenticated === 'function') {
+          setIsAuthenticated(true); // Update auth state
+        }
         setTimeout(() => navigate('/'), 1000);
       }
     } catch (error) {

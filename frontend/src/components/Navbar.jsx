@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import axios from "axios";
 
 const Navbar = () => {
   const location = useLocation();
@@ -29,6 +30,10 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    
+    // Clear global axios authorization header
+    delete axios.defaults.headers.common['Authorization'];
+    
     setUser(null);
     setTimeout(() => navigate("/login"), 200);
   };

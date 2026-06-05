@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import image from '../assets/image.png';
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -38,6 +39,10 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.userId); // 👈 This line is the key fix
         localStorage.setItem('user', JSON.stringify({ username: data.username, email: data.email }));
+        
+        // Dynamically set default axios authorization header
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+        
         console.log("✅ userId saved:", data.userId);
         setMessage('Login successful!');
         setTimeout(() => navigate('/'), 1000);

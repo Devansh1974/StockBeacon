@@ -136,6 +136,19 @@ Try asking:
         🤖
       </button>
 
+      {/* Small UI/UX Popup / Tooltip above the chat button (Feature Upgrade) */}
+      {!isChatOpen && (
+        <button
+          onClick={toggleChat}
+          className="fixed bottom-[96px] right-6 bg-white text-gray-800 text-xs font-semibold px-3.5 py-2 rounded-xl shadow-xl border border-gray-100 flex items-center space-x-1.5 animate-bounce z-50 cursor-pointer hover:scale-105 transition-all select-none focus:outline-none focus:ring-2 focus:ring-indigo-300"
+        >
+          <span>Ask me anything!</span>
+          <span className="text-sm">👋</span>
+          {/* Tooltip arrow pointing down */}
+          <div className="absolute bottom-[-5px] right-7 w-2.5 h-2.5 bg-white border-r border-b border-gray-100 rotate-45"></div>
+        </button>
+      )}
+
       {isChatOpen && (
         <div className="fixed top-0 right-0 h-full w-full sm:w-[90vw] md:w-[420px] lg:w-[460px] bg-white shadow-2xl z-50 flex flex-col border-l border-gray-150 transition-all duration-300 animate-slide-in">
           
