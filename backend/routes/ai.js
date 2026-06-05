@@ -93,10 +93,18 @@ router.post('/chat', chatLimiter, async (req, res) => {
     // A. Founder & Owner Details
     if (
       normalizedQuery.includes('founder') ||
+      normalizedQuery.includes('founded') ||
+      normalizedQuery.includes('creator') ||
+      normalizedQuery.includes('created') ||
       normalizedQuery.includes('create') ||
       normalizedQuery.includes('owner') ||
+      normalizedQuery.includes('owns') ||
+      normalizedQuery.includes('own') ||
       normalizedQuery.includes('developer') ||
+      normalizedQuery.includes('developed') ||
       normalizedQuery.includes('built') ||
+      normalizedQuery.includes('made') ||
+      normalizedQuery.includes('make') ||
       normalizedQuery.includes('devansh') ||
       normalizedQuery.includes('linkedin') ||
       normalizedQuery.includes('mail') ||
@@ -142,7 +150,8 @@ router.post('/chat', chatLimiter, async (req, res) => {
       normalizedQuery.includes('portfolio') ||
       normalizedQuery.includes('track') ||
       normalizedQuery.includes('holding') ||
-      normalizedQuery.includes('investment')
+      normalizedQuery.includes('investment') ||
+      normalizedQuery.includes('watchlist')
     ) {
       const portfolioService = knowledgeBase.services.find(s => s.id === 'portfolio_tracking');
       localResponse = `💼 **${portfolioService.name}**:\n\n` +

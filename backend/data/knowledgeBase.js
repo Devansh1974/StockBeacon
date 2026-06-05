@@ -26,7 +26,7 @@ const knowledgeBase = {
     {
       id: "ai_alerts",
       name: "AI Stock Alerts",
-      description: "Real-time stock price movement and trend alerts powered by Gemini AI, helping users stay ahead of market shifts.",
+      description: "Real-time stock price movement and trend alerts powered by StockBeacon, helping users stay ahead of market shifts.",
       details: [
         "Price-based alerts: Track standard thresholds and dynamic percentage moves.",
         "Market monitoring: Continuous scanning of market data for anomalies and breakouts.",
