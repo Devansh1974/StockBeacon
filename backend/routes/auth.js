@@ -14,8 +14,12 @@ router.get('/auth/google/callback',
   (req, res) => {
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    // Set token in HTTP-only cookie
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    // Set token in HTTP-only cookie with sameSite lax configuration
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
 
     console.log(`📖 DB READ: Google user authenticated -> ${req.user.email}`);
 
@@ -23,6 +27,18 @@ router.get('/auth/google/callback',
     res.redirect(`${process.env.CLIENT_URL}/`);
   }
 );
+
+// 👤 Get currently logged-in user profile (token verification fallback)
+router.get('/auth/me', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+    res.json({ user });
+  } catch (err) {
+    console.error("Auth check error:", err);
+    res.status(500).json({ error: "Failed to check session" });
+  }
+});
 
 // Register (Manual Signup)
 router.post('/register', async (req, res) => {
@@ -43,7 +59,11 @@ router.post('/register', async (req, res) => {
     console.log(`📝 DB WRITE: New user registered -> ${email}`);
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
     res.json({ message: 'Registration successful' });
   } catch (err) {
     console.error("Registration error:", err);
@@ -70,7 +90,7 @@ router.post('/login', async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
     });
 
     //  Send token explicitly in response if frontend requires it

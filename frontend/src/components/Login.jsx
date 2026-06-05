@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -12,6 +12,14 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  // 🔔 Check if redirected due to an expired session
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('expired') === 'true') {
+      setMessage('Your session has expired. Please log in again.');
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,10 +45,10 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.userId); // 👈 This line is the key fix
+        localStorage.setItem('userId', data.userId);
         localStorage.setItem('user', JSON.stringify({ username: data.username, email: data.email }));
         
-        // Dynamically set default axios authorization header
+        // Dynamically bind global axios defaults
         axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
         
         console.log("✅ userId saved:", data.userId);
@@ -118,7 +126,7 @@ const Login = () => {
             </button>
 
             {/* Error or Success Message */}
-            {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
+            {message && <p className="mt-4 text-center text-sm text-red-500 font-medium">{message}</p>}
           </form>
 
           {/* Google Login */}
